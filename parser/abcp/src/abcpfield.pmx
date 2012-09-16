@@ -1,0 +1,205 @@
+/*
+**  (C) by Remo Dentato (rdentato@gmail.com)
+**
+** This software is distributed under the terms of the BSD license:
+**   http://creativecommons.org/licenses/BSD/
+**   http://opensource.org/licenses/bsd-license.php
+*/
+
+#include "abcp_priv.h"
+
+char *abcFieldStart(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD ) return utlEmptyString;
+  return abcTokenStart(scn,3);
+}
+
+int abcFieldLen(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD) return 0;
+  return abcTokenLen(scn,3);  
+}
+
+char abcField(abcScanner *scn) 
+{
+  char c = '?';
+  if (abcToken(scn) == T_FIELD) {
+    c = *abcTokenStart(scn,2);
+    if (c=='%') c='I';
+  }
+  return c;
+}
+
+char *abcFieldNameStart(abcScanner *scn)
+{
+  char c;
+  if (abcToken(scn) != T_FIELD ) return utlEmptyString;
+  c = abcField(scn);
+  if (c == 'I') return abcTokenStart(scn,4); 
+  return abcTokenStart(scn,2);
+}
+
+int abcFieldNameLen(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD) return 0;
+  if (abcField(scn) == 'I') return abcTokenLen(scn,4); 
+  return 1;
+}
+
+/****/
+static long abc_beats;
+static long abc_num;
+static long abc_den;
+static long abc_numnth[4];
+static long abc_dennth[4];
+
+static void abc_tempo(abcScanner *scn)
+{
+  char *p;
+  int k;
+  int i;
+  unsigned long nm,dn,tmp;
+   
+  if (abcTestFlag(scn,ABC_F_FIELDSCANNED)) return;
+  
+  abcSetFlag(scn,ABC_F_FIELDSCANNED);
+  
+  abc_numnth[0] = 0; abc_dennth[0] = 1; 
+  abc_numnth[1] = 0; abc_dennth[1] = 1; 
+  abc_numnth[2] = 0; abc_dennth[2] = 1; 
+  abc_numnth[3] = 0; abc_dennth[3] = 1;
+   
+  scn->tok_str[5][0] = scn->tok_str[5][1] = utlEmptyString;
+
+  i = 0;
+  p = abcFieldStart(scn);  
+  k = abcFieldLen(scn);
+  
+  abc_num = 0;
+  abc_den = 1;
+  abc_beats = 0;
+  
+  while (k>0) {
+    switch pmx(p) {
+      case "&k" : 
+        k -= pmx(Len,0);
+        break;
+      
+      case "(&q)&K":
+        scn->tok_str[5][0] = pmx(Start,1)+1; 
+        scn->tok_str[5][1] = pmx(End,1)-1;
+        k -= pmx(Len,0);
+        break;
+      
+      case "(&d)&K/&K(&d)&K" :
+        if (i <4) {
+          nm = atoi(pmx(Start,1));
+          dn = atoi(pmx(Start,2));
+          tmp = abc_den * nm + abc_num *dn;
+          abc_den = abc_den * dn;
+          abc_num = tmp;
+          abc_numnth[i] = nm;
+          abc_dennth[i] = dn;
+          i++;
+        }
+        k -= pmx(Len,0);
+        break;        
+          
+      case "(&d)&K" :
+        abc_beats = atoi(pmx(Start,1));
+        k -= pmx(Len,0);
+        break;        
+          
+      case "<.>&K" : 
+        k -= pmx(Len,0);
+        break;
+    }
+  }
+  
+  if (abc_num > abc_den)
+    {nm = abc_num;  dn = abc_den;}
+  else
+    {dn = abc_num;  nm = abc_den;}
+  for (;;) {
+    tmp = nm % dn;
+    if (tmp == 0) break;
+    nm = dn; dn = tmp;
+  }
+  abc_num /= dn;
+  abc_den /= dn;
+}
+
+char *abcTempoStart(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return utlEmptyString;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+
+  return abcTokenStart(scn,5);  
+}
+
+int abcTempoLen(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+
+  return abcTokenLen(scn,5);
+}
+
+int abcTempoBeats(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+    
+  return abc_beats;
+}
+
+int abcTempoNum(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+    
+  return abc_num;
+}
+
+int abcTempoDen(abcScanner *scn)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+    
+  return abc_den;
+}
+
+
+long abcTempoNumNth(abcScanner *scn,int n)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+  
+  if (n < 0 || 4 <= n) return 0;
+    
+  return abc_numnth[n];
+}
+
+long abcTempoDenNth(abcScanner *scn,int n)
+{
+  if (abcToken(scn) != T_FIELD || abcField(scn) != 'Q') return 0;
+  
+  if (!abcTestFlag(scn,ABC_F_FIELDSCANNED)) 
+    abc_tempo(scn);
+  
+  if (n < 0 || 4 <= n) return 0;
+    
+  return abc_dennth[n];
+}

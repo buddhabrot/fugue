@@ -1,0 +1,9 @@
+  #nomerge
+  |1 ch1 tempo 110
+  |2 ch1 lyricson
+   
+  |1          ( F/4    G  A   F   )*2  (A   Bb  / C= \   )*2 
+  |2 lyricson ( Fre-/4 re Jac-que,)*2  (dor-mez   vous?= )*2
+  
+  |1 ( / C/8    D   C  \ Bb  A=   F=  )*2   (G/4    C    F= )*2
+  |2 (   Son-/8 nez les  ma- ti-= nes=)*2   (Din,/4 dan, don.= )*2

@@ -1,0 +1,25 @@
+%%deco alcoda 3 dacs 20 0 0 Al Coda
+%%header "		$T\n		Page $P"
+%%footer "	$F"
+H: I was   
+   once walking
+   on the road
+H: lonely
+X:1
+T:abcm2ps version 3 features
+M:2/4 3/4
+K:C
++:treble 
+a>^B [C_G] |[1 C C | [ "ultima volta" GC ::|: |[|]]
+B<C :: D>E
+X:2
+%% begintext Hello there
+%%           Here we are
+             happiness 
+             more or less
+%% endtext
+A {[c^de]} B
+
+I: staves {(RH1 RH2) (LH1 LH2)}
+
+ADCE

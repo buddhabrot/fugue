@@ -1,0 +1,36 @@
+digraph G {
+  mode = hier
+  
+	node [shape = ellipse]; LIMBO [style= filled];
+	node [shape = ellipse];
+	LIMBO -> HEADER  ;
+	HEADER -> LIMBO;
+	HEADER -> TUNE ;
+	TUNE -> LYRICS ;
+	TUNE -> SYMBOLS ;
+	TUNE -> CHORD [style=dashed ];
+	TUNE -> GRACE;
+	TUNE -> LIMBO ;
+	LYRICS -> TUNE ;
+	LYRICS -> LIMBO ;
+  CHORD -> HISTORY [style=invis] ;
+  CHORD -> TEXT [style=invis] ;
+	GRACE -> TUNE ;
+	GRACE -> CHORD  [style=dashed ] ;
+	SYMBOLS -> TUNE ;
+	SYMBOLS -> LIMBO ;
+	HEADER -> TEXT [style=dashed ];
+	LIMBO -> TEXT  [style=dashed];
+	TUNE -> TEXT [style=dashed];
+	LYRICS -> TEXT [style=dashed];
+	SYMBOLS -> TEXT [style=dashed];
+
+	HEADER -> HISTORY  [style=dashed];
+	LIMBO -> HISTORY  [style=dashed] ;
+	TUNE -> HISTORY [style=dashed] ;
+	LYRICS -> HISTORY  [style=dashed];
+	SYMBOLS -> HISTORY [style=dashed ] ;
+	
+	overlap=false
+  sep = 1.5
+}

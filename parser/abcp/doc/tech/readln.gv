@@ -1,0 +1,30 @@
+
+
+digraph finite_state_machine {
+	
+	rankdir=LR;
+	node [shape = doublecircle]; BOL;
+	node [shape = doublecircle]; EOL;
+	node [shape = circle];
+	
+	BOL -> BOL [ label = "spc" ];
+	BOL -> "REM?" [ label = "%" ];
+	BOL -> LINE [ label = "" ];
+	BOL -> EOL [ label = "\\n" ];
+
+  "REM?" -> REM  [ label = "" ];
+	"REM?" -> LINE [ label = "%" ];
+	"REM?" -> EOL [ label = "\\n" ];
+
+	LINE -> STR [ label = "\"" ];
+	LINE -> LINE [ label = "" ];
+	LINE -> EOL [ label = "[%]" ];
+	LINE -> EOL [ label = "\\n" ];
+	
+	REM  -> REM  [ label = "" ];
+	REM  -> EOL [ label = "\\n" ];
+	
+	STR -> STR [ label = "" ];
+	STR -> LINE [ label = "\"" ];
+
+}

@@ -1,0 +1,139 @@
+[Config]
+Compilator.FileName=D:\0_Proj\abcp\mk.bat
+Compilator.PSPar=%ProjectDir% %Input%
+Compilator.DefaultDir=%Dir%
+Compilator.SaveAll=0
+Compilator.Capture=1
+Compilator.ParsLog=%F:%L:*
+Compilator.HideOutput=1
+Compilator.LogType=0
+DefaultDir=D:\0_Proj\abcp
+DefaultCPIndex=0
+LogtoEnd=1
+DontOpen=0
+AbsolutePath=0
+FileFormat=0
+ProjectFilesOnly=0
+[Project tree]
+abcp
+	+abcp
+		-examples
+			-crdnotes
+				examples\crdnotes\makefile
+				examples\crdnotes\crdnotes.c
+			-crdlyr
+				examples\crdlyr\crdlyr.c
+				examples\crdlyr\marcha.txt
+			-explicit
+				examples\explicit\explicit.c
+			-nousym
+				examples\explicit\makefile
+				examples\nousym\nousym.c
+			-abcdump
+				examples\nousym\makefile.mk
+				examples\abcdump\abcdump.c
+			examples\makefile
+		+src
+			src\abcpscan.pmx
+			src\abcpkey.pmx
+			src\abcpchords.pmx
+			src\abcptext.pmx
+			src\abcpcommon.c
+			src\abcpnote.pmx
+			src\abcp_priv.h
+			src\abcp.h
+			src\makefile
+		config.mk
+		targets.mk
+		makefile
+		mk.bat
+		README.txt
+	-test
+		+bytoken
+			test\bytoken\annotation.txt
+			test\bytoken\bars.txt
+			test\bytoken\comment.txt
+			test\bytoken\deco.txt
+			test\bytoken\gchords.txt
+			test\bytoken\lyrics.txt
+			test\bytoken\ovl.txt
+			test\bytoken\slurtie.txt
+			test\bytoken\text.txt
+			test\bytoken\tuplet.txt
+			test\bytoken\include.txt
+			test\bytoken\inc2.txt
+			test\bytoken\usersym.txt
+			test\bytoken\usersym2.txt
+		test\a6.txt
+		test\a5.txt
+		test\a4.txt
+		test\a3.txt
+		test\mtones.abc
+		test\a2.txt
+		test\a1.txt
+		test\a7.txt
+		test\a11.txt
+[Open project files]
+0=src\abcpscan.pmx
+1=examples\abcdump\abcdump.c
+2=src\abcp.h
+3=src\abcpcommon.c
+4=src\abcpkey.pmx
+5=src\abcpfield.pmx
+6=test\a11.txt
+7=doc\sag.txt
+8=doc\s2.txt
+9=src\makefile
+10=src\abcpnote.pmx
+11=..\abcm2ps-5.9.3\features.txt
+12=test\a7.txt
+13=test\b7.txt
+14=doc\tech\readln.gv
+[Selected Project Files]
+Main=
+Selected=src\abcpscan.pmx
+[src\abcpscan.pmx]
+TopLine=1032
+Caret=1,124
+[examples\abcdump\abcdump.c]
+TopLine=262
+Caret=55,283
+[src\abcp.h]
+TopLine=353
+Caret=38,394
+[src\abcpcommon.c]
+TopLine=1
+Caret=2,23
+[src\abcpkey.pmx]
+TopLine=319
+Caret=17,333
+[src\abcpfield.pmx]
+TopLine=124
+Caret=1,132
+[test\a11.txt]
+TopLine=1
+Caret=13,13
+[doc\sag.txt]
+TopLine=75
+Caret=40,87
+[doc\s2.txt]
+TopLine=185
+Caret=40,226
+[src\makefile]
+TopLine=1
+Caret=35,13
+[src\abcpnote.pmx]
+TopLine=179
+Caret=2,193
+[..\abcm2ps-5.9.3\features.txt]
+TopLine=143
+Caret=12,162
+[test\a7.txt]
+TopLine=1
+Caret=1,1
+[test\b7.txt]
+TopLine=1
+Caret=1,25
+[doc\tech\readln.gv]
+TopLine=1
+Caret=1,31
